@@ -20,8 +20,6 @@ const defaultFormFields = {
 const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
 
-  console.log({ formFields });
-
   const { displayName, email, password, confirmPassword } = formFields;
 
   const handleChange = (event) => {
@@ -49,6 +47,7 @@ const SignUpForm = () => {
       );
       console.log(user);
       await createDocFromAuth(user, { displayName });
+
       resetFormField();
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {

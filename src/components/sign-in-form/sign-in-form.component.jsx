@@ -1,8 +1,8 @@
 import FormInput from "../form-input/form-input.component";
-import { useState } from "react";
-// import { signInWithEmail } from "../../utils/firebase/firebase.utils";
+import { useState, useEffect } from "react";
+
 import Button from "../button/button.component";
-import { useEffect } from "react";
+
 import {
   auth,
   signInWithGooglePopup,
@@ -10,7 +10,7 @@ import {
   createDocFromAuth,
   signInWithEmail,
 } from "../../utils/firebase/firebase.utils";
-// import { useEffect } from "react";
+
 import { getRedirectResult } from "firebase/auth";
 
 import "./sign-in-form.styles.scss";
@@ -26,18 +26,16 @@ const SignInForm = () => {
   const { email, password } = formFields;
 
   const handleChange = (event) => {
-    console.log(event);
     const { name, value } = event.target;
     setFormFields({ ...formFields, [name]: value });
-    console.log(name);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const response = await signInWithEmail(email, password);
-      console.log(response);
+      const { user } = await signInWithEmail(email, password);
+
       setFormFields(defaultForm);
     } catch (error) {
       console.log(error);
@@ -69,8 +67,7 @@ const SignInForm = () => {
     response();
   }, []);
   const logGoogleUser = async () => {
-    const { user } = await signInWithGooglePopup();
-    await createDocFromAuth(user);
+    await signInWithGooglePopup();
   };
 
   return (
@@ -100,7 +97,7 @@ const SignInForm = () => {
           log in
         </Button>
         <Button type="button" buttonType="google" onClick={logGoogleUser}>
-          Sign in with Google Popup
+          Google Popup
         </Button>
         <Button
           type="button"
