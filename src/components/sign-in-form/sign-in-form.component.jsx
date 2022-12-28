@@ -1,7 +1,7 @@
 import FormInput from "../form-input/form-input.component";
 import { useState, useEffect } from "react";
 
-import Button from "../button/button.component";
+import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 
 import {
   auth,
@@ -13,7 +13,7 @@ import {
 
 import { getRedirectResult } from "firebase/auth";
 
-import "./sign-in-form.styles.scss";
+import { SignUpCont, ButtonsCont } from "./sign-in-form.styles.jsx";
 
 const defaultForm = {
   email: "",
@@ -71,7 +71,7 @@ const SignInForm = () => {
   };
 
   return (
-    <div className="sign-up-container">
+    <SignUpCont>
       <FormInput
         label="Email"
         inputOptions={{
@@ -92,22 +92,26 @@ const SignInForm = () => {
           value: password,
         }}
       />
-      <div className="buttons-container">
+      <ButtonsCont>
         <Button buttonType="inverted" type="submit" onClick={handleSubmit}>
           log in
         </Button>
-        <Button type="button" buttonType="google" onClick={logGoogleUser}>
+        <Button
+          type="button"
+          buttonType={BUTTON_TYPE_CLASSES.google}
+          onClick={logGoogleUser}
+        >
           Google Popup
         </Button>
         <Button
           type="button"
-          buttonType="google"
+          buttonType={BUTTON_TYPE_CLASSES.google}
           onClick={signInWithGoogleRedirect}
         >
           Sign in with Google Redirect
         </Button>
-      </div>
-    </div>
+      </ButtonsCont>
+    </SignUpCont>
   );
 };
 
