@@ -88,10 +88,10 @@ export const createDocFromAuth = async (
   if (!userAuth) return;
 
   const userDocRef = doc(db, "users", userAuth.uid);
-  console.log(userDocRef);
+  // console.log(userDocRef);
   const userSnapshot = await getDoc(userDocRef);
-  console.log(userSnapshot);
-  console.log(userSnapshot.exists()); // to check if there is an istance that exists
+  // console.log(userSnapshot);
+  // console.log(userSnapshot.exists()); // to check if there is an istance that exists
 
   if (!userSnapshot.exists()) {
     const { displayName, email } = userAuth;

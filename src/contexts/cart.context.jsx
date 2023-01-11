@@ -1,4 +1,6 @@
-import { createContext, useEffect, useState, useReducer } from "react";
+import { createContext, useReducer } from "react";
+
+import { createAction } from "../utils/reducer/reducer.utils";
 
 export const CartContext = createContext({
   isCartOpen: false,
@@ -67,8 +69,8 @@ const removeItemComplete = (cartItems, product) => {
 
 // REDUCER METHODS
 export const CART_ACTION_TYPES = {
-  SET_CURRENT_COUNT: "SET_CURRENT_COUNT",
-  SET_CURRENT_TOTAL: "SET_CURRENT_TOTAL",
+  SET_CART_ITEMS: "SET_CART_ITEMS",
+  SET_IS_CART_OPEN: "SET_IS_CART_OPEN",
 };
 
 const INITIAL_STATE = {
@@ -79,13 +81,15 @@ const INITIAL_STATE = {
 };
 
 const cartReducer = (state, action) => {
-  console.log("dispatched 🚀");
+  console.log({ state });
   console.log({ action });
   const { type, payload } = action;
 
   switch (type) {
-    case "SET_CART_ITEMS":
+    case CART_ACTION_TYPES.SET_CART_ITEMS:
       return { ...state, ...payload };
+    case CART_ACTION_TYPES.SET_IS_CART_OPEN:
+      return { ...state, isCartOpen: payload };
 
     default:
       throw new Error(`Unhandled type ${type} in cartReducer`);
@@ -107,15 +111,16 @@ export const CartProvider = ({ children }) => {
       (total, cartItem) => total + cartItem.quantity * cartItem.price,
       0
     );
+    console.log({ newCartItems });
 
-    dispatch({
-      type: "SET_CART_ITEMS",
-      payload: {
+    dispatch(
+      createAction(CART_ACTION_TYPES.SET_CART_ITEMS, {
         cartItems: newCartItems,
+        isCartOpen: isCartOpen,
         cartCount: newCartCount,
         cartTotal: newCartTotal,
-      },
-    });
+      })
+    );
   };
 
   const addItemToCart = (productToAdd) => {
@@ -141,6 +146,10 @@ export const CartProvider = ({ children }) => {
   const totalRemove = (product) => {
     const newCartItems = removeItemComplete(cartItems, product);
     updateCartItemsReducer(newCartItems);
+  };
+
+  const setIsCartOpen = (boolean) => {
+    dispatch({ type: CART_ACTION_TYPES.SET_IS_CART_OPEN, payload: boolean });
   };
 
   const value = {
