@@ -36,7 +36,7 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const firebaseApp = initializeApp(firebaseConfig); // this instance allows us to do all the CRUD ops
+initializeApp(firebaseConfig); // this instance allows us to do all the CRUD ops
 
 const provider = new GoogleAuthProvider();
 provider.setCustomParameters({
@@ -72,6 +72,7 @@ export const addCollectionAndDocuments = async (
 export const getCategoriesAndDocuments = async () => {
   const collectionRef = collection(db, "categories");
   const q = query(collectionRef);
+  await Promise.reject(new Error("new Firebase error oops"));
   const querySnapshot = await getDocs(q);
   console.log({ querySnapshot });
   return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());

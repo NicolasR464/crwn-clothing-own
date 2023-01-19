@@ -9,19 +9,24 @@ import { rootReducer } from "./root-reducer";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
+import thunk from "redux-thunk";
+
 const persistConfig = {
   key: "root", //I want you to persist the whole thing
   storage, // shorthand: we cast the variable as the key name
-  blacklist: ["user"], // things we don't want to persist
+  // blacklist: ["user"], // things we don't want to persist
+  whitelist: ["cart"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 //the middlewares enhances our store, they catch actions before they hit our reducers and they log the state (w/ logger middleware)
-const middleWares = [process.env.NODE_ENV === "development" && logger].filter(
-  Boolean
-); // it filters out anything that is not true -- to hide the logger in production
+const middleWares = [
+  process.env.NODE_ENV === "development" && logger,
+  thunk,
+].filter(Boolean); // it filters out anything that is not true -- to hide the logger in production
 
+//To use Redux chrome extension tool
 const composeEnhancer =
   (process.env.NODE_ENV !== "production" &&
     window &&
@@ -38,3 +43,5 @@ export const store = legacy_createStore(
 //we created a persisted reducer that we want to use for our store
 
 export const persistor = persistStore(store);
+
+/////
