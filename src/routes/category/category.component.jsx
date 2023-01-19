@@ -1,7 +1,7 @@
 import { CategoryCont, H2 } from "./category-styles.jsx";
 import { useParams } from "react-router-dom";
-import { useContext, useEffect, useState, Fragment } from "react";
-import { CategoriesContext } from "../../contexts/categories.context";
+import { useEffect, useState, Fragment } from "react";
+
 import ProductCard from "../../components/product-card/product-card.component";
 
 import { useSelector } from "react-redux";
@@ -9,6 +9,9 @@ import { selectCategoriesMap } from "../../store/categories/category.selector";
 
 const Category = () => {
   const { category } = useParams();
+  console.log("render/re-rendering category component");
+
+  console.log({ selectCategoriesMap });
 
   const categoriesMap = useSelector(selectCategoriesMap);
 
@@ -16,6 +19,7 @@ const Category = () => {
 
   //it won't update unless category or categoriesMap change
   useEffect(() => {
+    console.log("effect fired calling setProducts");
     setProducts(categoriesMap[category]);
   }, [category, categoriesMap]);
 
@@ -33,3 +37,5 @@ const Category = () => {
 };
 
 export default Category;
+
+///////

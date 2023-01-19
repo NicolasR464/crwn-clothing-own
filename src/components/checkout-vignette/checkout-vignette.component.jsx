@@ -7,28 +7,34 @@ import {
   Value,
 } from "./checkout-vignette.styles.jsx";
 
-import { useContext } from "react";
+import {
+  addItemToCart,
+  clearItemFromCart,
+  removeItemFromCart,
+} from "../../store/cart/cart.action";
 
-import { CartContext } from "../../contexts/cart.context";
+import { selectCartItems } from "../../store/cart/cart.selector.js";
+import { useDispatch, useSelector } from "react-redux";
 
 const Vignette = ({ product }) => {
   console.log("vignette:", product);
-  const { addQuantityToProduct, removeItemToCart, totalRemove } =
-    useContext(CartContext);
+
   const { imageUrl, name, quantity, price } = product;
+  const cartItems = useSelector(selectCartItems);
+  const dispatch = useDispatch();
 
   const removeHandler = () => {
     console.log("remove");
-    removeItemToCart(product);
+    dispatch(removeItemFromCart(cartItems, product));
   };
   const addHandler = () => {
     console.log("add");
-    addQuantityToProduct(product);
+    dispatch(addItemToCart(cartItems, product));
   };
 
   const totalRemoveHandler = () => {
     console.log("total remove");
-    totalRemove(product);
+    dispatch(clearItemFromCart(cartItems, product));
   };
 
   return (

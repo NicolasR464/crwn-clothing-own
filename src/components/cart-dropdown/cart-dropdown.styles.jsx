@@ -14,7 +14,7 @@ export const DropContainer = styled.div`
   flex-direction: column;
   padding: 20px;
   border: 1px solid black;
-  background-color: white;
+  background-color: #00be49;
   top: 90px;
   right: 40px;
   z-index: 5;
