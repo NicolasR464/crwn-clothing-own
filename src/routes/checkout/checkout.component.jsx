@@ -6,6 +6,8 @@ import {
   Span,
 } from "./checkout.styles.jsx";
 
+import PaymentForm from "../../components/payment-form/payment-form.component";
+
 import {
   selectCartItems,
   selectCartTotal,
@@ -41,6 +43,7 @@ const Checkout = () => {
         return <Vignette key={id} product={item} />;
       })}
       <Span>Total: ${cartTotal} </Span>
+      <PaymentForm />
     </CheckoutCont>
   );
 };
